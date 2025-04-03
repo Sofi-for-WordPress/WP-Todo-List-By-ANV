@@ -29,7 +29,7 @@ class Todo_Kick_Admin {
 	 *
 	 * @since    1.0.0
 	 * @access   private
-	 * @var      string    $plugin_name    The ID of this plugin.
+	 * @var      string $plugin_name The ID of this plugin.
 	 */
 	private string $plugin_name;
 
@@ -38,21 +38,22 @@ class Todo_Kick_Admin {
 	 *
 	 * @since    1.0.0
 	 * @access   private
-	 * @var      string    $version    The current version of this plugin.
+	 * @var      string $version The current version of this plugin.
 	 */
 	private string $version;
 
 	/**
 	 * Initialize the class and set its properties.
 	 *
+	 * @param string $plugin_name The name of this plugin.
+	 * @param string $version The version of this plugin.
+	 *
 	 * @since    1.0.0
-	 * @param      string    $plugin_name       The name of this plugin.
-	 * @param      string    $version    The version of this plugin.
 	 */
 	public function __construct( string $plugin_name, string $version ) {
 
 		$this->plugin_name = $plugin_name;
-		$this->version = $version;
+		$this->version     = $version;
 
 	}
 
@@ -76,7 +77,7 @@ class Todo_Kick_Admin {
 		 */
 
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/todo-kick-admin.css', array(), $this->version, 'all' );
-
+		wp_enqueue_style( 'react-style', plugin_dir_url( __FILE__ ) . 'dist/index.css', array(), '1.0.0', 'all' );
 	}
 
 	/**
@@ -99,6 +100,21 @@ class Todo_Kick_Admin {
 		 */
 
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/todo-kick-admin.js', array( 'jquery' ), $this->version, false );
+		wp_enqueue_script( 'react-ui-script', plugin_dir_url( __FILE__ ) . 'dist/index.js', array(), $this->version, true );
 
+	}
+
+	public function init_admin_menu(): void {
+		add_menu_page(
+			__( 'Example Page' ),
+			__( 'Example Page' ),
+			'manage_options',
+			'example-page',
+			array( $this, 'example_page__callback' )
+		);
+	}
+
+	public function example_page__callback(): void {
+		echo '<div id="todo-kick-task-list-page"></div>';
 	}
 }
