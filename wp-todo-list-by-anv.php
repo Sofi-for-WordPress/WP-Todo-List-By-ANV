@@ -74,9 +74,6 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-wp-todo-list-by-anv.php';
  * @since    1.0.0
  */
 function run_wp_todo_list_by_anv() {
-
-	$plugin = new Wp_Todo_List_By_Anv();
-	$plugin->run();
-
+	Wp_Todo_List_By_Anv::get_instance()->run();
 }
 run_wp_todo_list_by_anv();

@@ -30,12 +30,22 @@
 class Wp_Todo_List_By_Anv {
 
 	/**
+	 * Holds the current instance of the plugin's main class.
+	 * This property is part of the singleton which helps to improves the site's performance.
+	 *
+	 * @since 1.0.0
+	 * @access private
+	 * @var Wp_Todo_List_By_Anv | null
+	 */
+	private static ?Wp_Todo_List_By_Anv $instance = null;
+
+	/**
 	 * The loader that's responsible for maintaining and registering all hooks that power
 	 * the plugin.
 	 *
 	 * @since    1.0.0
 	 * @access   protected
-	 * @var      Wp_Todo_List_By_Anv_Loader    $loader    Maintains and registers all hooks for the plugin.
+	 * @var      Wp_Todo_List_By_Anv_Loader $loader Maintains and registers all hooks for the plugin.
 	 */
 	protected $loader;
 
@@ -44,7 +54,7 @@ class Wp_Todo_List_By_Anv {
 	 *
 	 * @since    1.0.0
 	 * @access   protected
-	 * @var      string    $plugin_name    The string used to uniquely identify this plugin.
+	 * @var      string $plugin_name The string used to uniquely identify this plugin.
 	 */
 	protected $plugin_name;
 
@@ -53,7 +63,7 @@ class Wp_Todo_List_By_Anv {
 	 *
 	 * @since    1.0.0
 	 * @access   protected
-	 * @var      string    $version    The current version of the plugin.
+	 * @var      string $version The current version of the plugin.
 	 */
 	protected $version;
 
@@ -79,6 +89,19 @@ class Wp_Todo_List_By_Anv {
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
 
+	}
+
+	/**
+	 * The method is part of singleton pattern.
+	 *
+	 * @return Wp_Todo_List_By_Anv
+	 */
+	public static function get_instance(): Wp_Todo_List_By_Anv {
+		if ( self::$instance === null ) {
+			self::$instance = new self();
+		}
+
+		return self::$instance;
 	}
 
 	/**
@@ -188,8 +211,8 @@ class Wp_Todo_List_By_Anv {
 	 * The name of the plugin used to uniquely identify it within the context of
 	 * WordPress and to define internationalization functionality.
 	 *
-	 * @since     1.0.0
 	 * @return    string    The name of the plugin.
+	 * @since     1.0.0
 	 */
 	public function get_plugin_name() {
 		return $this->plugin_name;
@@ -198,8 +221,8 @@ class Wp_Todo_List_By_Anv {
 	/**
 	 * The reference to the class that orchestrates the hooks with the plugin.
 	 *
-	 * @since     1.0.0
 	 * @return    Wp_Todo_List_By_Anv_Loader    Orchestrates the hooks of the plugin.
+	 * @since     1.0.0
 	 */
 	public function get_loader() {
 		return $this->loader;
@@ -208,8 +231,8 @@ class Wp_Todo_List_By_Anv {
 	/**
 	 * Retrieve the version number of the plugin.
 	 *
-	 * @since     1.0.0
 	 * @return    string    The version number of the plugin.
+	 * @since     1.0.0
 	 */
 	public function get_version() {
 		return $this->version;
