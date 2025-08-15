@@ -1,0 +1,15 @@
+{
+    "name": "anv/todokick",
+    "autoload": {
+        "psr-4": {
+            "TodoKick\\": "includes/"
+        }
+    },
+    "authors": [
+        {
+            "name": "junaidbinjaman",
+            "email": "me@junaidbinjaman.com"
+        }
+    ],
+    "require": {}
+}

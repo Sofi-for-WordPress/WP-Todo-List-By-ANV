@@ -1,2 +1,1 @@
-<?php
-// Life is good..
+<?php // Life is beautiful
