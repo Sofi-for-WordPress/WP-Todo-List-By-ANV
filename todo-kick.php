@@ -22,6 +22,7 @@
  * Update URI:        https://allnextver.com/todo-kick
  */
 
+use TodoKick\Todo_Kick;
 use TodoKick\Todo_Kick_Activator;
 use TodoKick\Todo_Kick_Deactivator;
 
@@ -65,4 +66,13 @@ function deactivate_todo_kick(): void {
 register_activation_hook( __FILE__, 'activate_todo_kick' );
 register_deactivation_hook( __FILE__, 'deactivate_todo_kick' );
 
-// run the plugin
+/**
+ * The plugin runs the TodoKick plugin
+ *
+ * @return void
+ */
+function run_todo_kick_plugin(): void {
+	Todo_Kick::get_instance()->run();
+}
+
+add_action( 'plugins_loaded', 'run_todo_kick_plugin' );

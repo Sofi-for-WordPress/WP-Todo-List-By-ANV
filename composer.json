@@ -2,7 +2,8 @@
     "name": "anv/todokick",
     "autoload": {
         "psr-4": {
-            "TodoKick\\": "includes/"
+            "TodoKick\\": "includes/",
+          "TodoKick\\Admin\\": "admin/"
         }
     },
     "authors": [

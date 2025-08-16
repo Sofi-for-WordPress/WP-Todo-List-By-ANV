@@ -12,6 +12,7 @@
 
 namespace TodoKick;
 
+use TodoKick\Admin\Todo_kick_Admin;
 use TodoKick\Todo_Kick_Loader;
 
 // abort if the file is directly called
@@ -73,6 +74,20 @@ class Todo_Kick {
 
 		$this->plugin_name = 'WP Todo Kick';
 		$this->load_dependencies();
+		$this->define_admin_hooks();
+	}
+
+	/**
+	 * Singleton instance method
+	 *
+	 * @return Todo_Kick
+	 */
+	public static function get_instance(): Todo_Kick {
+		if (self::$instance === null) {
+			self::$instance = new self();
+		}
+
+		return self::$instance;
 	}
 
 	/**
@@ -83,6 +98,20 @@ class Todo_Kick {
 	 */
 	private function load_dependencies(): void {
 		$this->loader = new Todo_Kick_Loader();
+	}
+
+	/**
+	 * Register all the hooks related to the admin area functionality
+	 * of the plugin.
+	 *
+	 * @since    1.0.0
+	 * @access   private
+	 */
+	private function define_admin_hooks(): void {
+		$plugin_admin = new Todo_kick_Admin( $this->get_plugin_name(), $this->get_version() );
+
+		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
+		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 	}
 
 	/**
@@ -113,5 +142,20 @@ class Todo_Kick {
 	 */
 	public function get_version(): string {
 		return $this->version;
+	}
+
+	/**
+	 * Get the api namespace of the plugin
+	 *
+	 * @return string
+	 */
+	public static function get_api_namespace(): string {
+		if (defined('TODO_KICK_API_NAMESPACE')) {
+			self::$api_namespace = TODO_KICK_API_NAMESPACE;
+		} else {
+			self::$api_namespace = 'todo-kick';
+		}
+
+		return self::$api_namespace;
 	}
 }
