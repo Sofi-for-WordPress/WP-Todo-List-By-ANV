@@ -1,2 +1,0 @@
-<?php
-// Life is beautiful..

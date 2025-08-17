@@ -1,81 +1,82 @@
 <?php
+
 /**
- * TodoKick
+ * The plugin bootstrap file
  *
- * @package           TodoKick
- * @author            Junaid Bin Jaman
- * @copyright         2025 All Next Ver
- * @license           GPL-2.0-or-later
+ * This file is read by WordPress to generate the plugin information in the plugin
+ * admin area. This file also includes all of the dependencies used by the plugin,
+ * registers the activation and deactivation functions, and defines a function
+ * that starts the plugin.
+ *
+ * @link              https://https://allnextver.expert/our-experts/junaid-bin-jaman/
+ * @since             1.0.0
+ * @package           Todo_Kick
  *
  * @wordpress-plugin
  * Plugin Name:       Todo Kick
  * Plugin URI:        https://allnextver.com/todo-kick
- * Description:       A lightweight WordPress plugin that adds a custom dashboard widget and an admin page featuring a Kanban-style board. It allows you to create, manage, and track to-do tasks with different statuses directly from the WordPress admin.
+ * Description:       A lightweight WordPress plugin that adds a simple To-Do List widget to your admin dashboard. Easily manage daily tasks, keep track of reminders, and stay organized without leaving your WordPress panel.
  * Version:           1.0.0
- * Requires at least: 5.2
- * Requires PHP:      7.2
  * Author:            Junaid Bin Jaman
- * Author URI:        https://allnextver.expert/junaidbinjaman
- * Text Domain:       todo_kick
- * License:           GPL v2 or later
+ * Author URI:        https://https://allnextver.expert/our-experts/junaid-bin-jaman//
+ * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
- * Update URI:        https://allnextver.com/todo-kick
+ * Text Domain:       todo-kick
+ * Domain Path:       /languages
  */
 
-use TodoKick\Todo_Kick;
-use TodoKick\Todo_Kick_Activator;
-use TodoKick\Todo_Kick_Deactivator;
-
-// if the file is called directly, abort
-defined('ABSPATH') || exit;
-
-// Include the autoloader file
-require plugin_dir_path(__FILE__) . 'vendor/autoload.php';
-
-/**
- * Current plugin version
- * Starts at 1.0.0. Follows SemVer - https://semver.org
- * Update the version number as you release new version
- */
-const TODO_KICK_VERSION = '1.0.0';
-
-/**
- * Rest api namespace for this plugin.
- */
-const TODO_KICK_API_NAMESPACE = 'todo-kick';
-
-
-/**
- * The function runs during activation
- *
- * @return void
- */
-function activate_todo_kick(): void
-{
-    Todo_Kick_Activator::activator();
+// If this file is called directly, abort.
+if ( ! defined( 'WPINC' ) ) {
+	die;
 }
 
 /**
- * The function runs during deactivation
- *
- * @return void
+ * Currently plugin version.
+ * Start at version 1.0.0 and use SemVer - https://semver.org
+ * Rename this for your plugin and update it as you release new versions.
  */
-function deactivate_todo_kick(): void
-{
-    Todo_Kick_Deactivator::deactivator();
-}
-
-register_activation_hook(__FILE__, 'activate_todo_kick');
-register_deactivation_hook(__FILE__, 'deactivate_todo_kick');
+define( 'TODO_KICK_VERSION', '1.0.0' );
 
 /**
- * The plugin runs the TodoKick plugin
- *
- * @return void
+ * The code that runs during plugin activation.
+ * This action is documented in includes/class-todo-kick-activator.php
  */
-function run_todo_kick_plugin(): void
-{
-    Todo_Kick::get_instance()->run();
+function activate_todo_kick() {
+	require_once plugin_dir_path( __FILE__ ) . 'includes/class-todo-kick-activator.php';
+	Todo_Kick_Activator::activate();
 }
 
-add_action('plugins_loaded', 'run_todo_kick_plugin');
+/**
+ * The code that runs during plugin deactivation.
+ * This action is documented in includes/class-todo-kick-deactivator.php
+ */
+function deactivate_todo_kick() {
+	require_once plugin_dir_path( __FILE__ ) . 'includes/class-todo-kick-deactivator.php';
+	Todo_Kick_Deactivator::deactivate();
+}
+
+register_activation_hook( __FILE__, 'activate_todo_kick' );
+register_deactivation_hook( __FILE__, 'deactivate_todo_kick' );
+
+/**
+ * The core plugin class that is used to define internationalization,
+ * admin-specific hooks, and public-facing site hooks.
+ */
+require plugin_dir_path( __FILE__ ) . 'includes/class-todo-kick.php';
+
+/**
+ * Begins execution of the plugin.
+ *
+ * Since everything within the plugin is registered via hooks,
+ * then kicking off the plugin from this point in the file does
+ * not affect the page life cycle.
+ *
+ * @since    1.0.0
+ */
+function run_todo_kick() {
+
+	$plugin = new Todo_Kick();
+	$plugin->run();
+
+}
+run_todo_kick();

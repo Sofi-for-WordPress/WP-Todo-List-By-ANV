@@ -1,1 +1,1 @@
-<?php // Life is beautiful
+<?php // Silence is golden
