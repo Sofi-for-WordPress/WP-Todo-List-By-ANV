@@ -27,10 +27,10 @@ use TodoKick\Todo_Kick_Activator;
 use TodoKick\Todo_Kick_Deactivator;
 
 // if the file is called directly, abort
-defined( 'ABSPATH' ) || exit;
+defined('ABSPATH') || exit;
 
 // Include the autoloader file
-require plugin_dir_path( __FILE__ ) . 'vendor/autoload.php';
+require plugin_dir_path(__FILE__) . 'vendor/autoload.php';
 
 /**
  * Current plugin version
@@ -50,8 +50,9 @@ const TODO_KICK_API_NAMESPACE = 'todo-kick';
  *
  * @return void
  */
-function activate_todo_kick(): void {
-	Todo_Kick_Activator::activator();
+function activate_todo_kick(): void
+{
+    Todo_Kick_Activator::activator();
 }
 
 /**
@@ -59,20 +60,22 @@ function activate_todo_kick(): void {
  *
  * @return void
  */
-function deactivate_todo_kick(): void {
-	Todo_Kick_Deactivator::deactivator();
+function deactivate_todo_kick(): void
+{
+    Todo_Kick_Deactivator::deactivator();
 }
 
-register_activation_hook( __FILE__, 'activate_todo_kick' );
-register_deactivation_hook( __FILE__, 'deactivate_todo_kick' );
+register_activation_hook(__FILE__, 'activate_todo_kick');
+register_deactivation_hook(__FILE__, 'deactivate_todo_kick');
 
 /**
  * The plugin runs the TodoKick plugin
  *
  * @return void
  */
-function run_todo_kick_plugin(): void {
-	Todo_Kick::get_instance()->run();
+function run_todo_kick_plugin(): void
+{
+    Todo_Kick::get_instance()->run();
 }
 
-add_action( 'plugins_loaded', 'run_todo_kick_plugin' );
+add_action('plugins_loaded', 'run_todo_kick_plugin');
