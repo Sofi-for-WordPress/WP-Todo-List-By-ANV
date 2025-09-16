@@ -25,6 +25,13 @@
  * Domain Path:       /languages
  */
 
+require plugin_dir_path( __FILE__ ) . 'vendor/autoload.php'; // load autoloader first
+
+use Todo_Kick\Todo_Kick;
+use Todo_Kick\Todo_Kick_Activator;
+use Todo_Kick\Todo_Kick_Deactivator;
+
+
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
 	die;
@@ -35,14 +42,18 @@ if ( ! defined( 'WPINC' ) ) {
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define( 'TODO_KICK_VERSION', '1.0.0' );
+const TODO_KICK_VERSION = '1.0.0';
+
+/**
+ * Plugin's custom rest api namespace
+ */
+const TODO_KICK_REST_API_NAMESPACE = 'todo-kick';
 
 /**
  * The code that runs during plugin activation.
  * This action is documented in includes/class-todo-kick-activator.php
  */
-function activate_todo_kick() {
-	require_once plugin_dir_path( __FILE__ ) . 'includes/class-todo-kick-activator.php';
+function activate_todo_kick(): void {
 	Todo_Kick_Activator::activate();
 }
 
@@ -50,19 +61,12 @@ function activate_todo_kick() {
  * The code that runs during plugin deactivation.
  * This action is documented in includes/class-todo-kick-deactivator.php
  */
-function deactivate_todo_kick() {
-	require_once plugin_dir_path( __FILE__ ) . 'includes/class-todo-kick-deactivator.php';
+function deactivate_todo_kick(): void {
 	Todo_Kick_Deactivator::deactivate();
 }
 
 register_activation_hook( __FILE__, 'activate_todo_kick' );
 register_deactivation_hook( __FILE__, 'deactivate_todo_kick' );
-
-/**
- * The core plugin class that is used to define internationalization,
- * admin-specific hooks, and public-facing site hooks.
- */
-require plugin_dir_path( __FILE__ ) . 'includes/class-todo-kick.php';
 
 /**
  * Begins execution of the plugin.
@@ -73,10 +77,9 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-todo-kick.php';
  *
  * @since    1.0.0
  */
-function run_todo_kick() {
+function run_todo_kick(): void {
 
-	$plugin = new Todo_Kick();
-	$plugin->run();
-
+	Todo_Kick::get_instance()->run();
 }
-run_todo_kick();
+
+add_action( 'plugins_loaded', 'run_todo_kick' );

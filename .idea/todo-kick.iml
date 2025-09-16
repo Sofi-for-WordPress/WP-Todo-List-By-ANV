@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="WEB_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <content url="file://$MODULE_DIR$/../../..">
+      <sourceFolder url="file://$MODULE_DIR$/../../../src" isTestSource="false" packagePrefix="Anv\WpTodoListByAnv\" />
+      <sourceFolder url="file://$MODULE_DIR$/admin" isTestSource="false" packagePrefix="Todo_Kick\Admin\" />
+      <sourceFolder url="file://$MODULE_DIR$/includes" isTestSource="false" packagePrefix="Todo_Kick\" />
+      <sourceFolder url="file://$MODULE_DIR$/public" isTestSource="false" packagePrefix="Todo_Kick\Public\" />
+      <excludeFolder url="file://$MODULE_DIR$/../../../vendor/composer" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/composer" />
+      <excludeFolder url="file://$MODULE_DIR$/../wp-dummy-content-generator/vendor/composer" />
+      <excludeFolder url="file://$MODULE_DIR$/../wp-dummy-content-generator/vendor/fakerphp/faker" />
+      <excludeFolder url="file://$MODULE_DIR$/../wp-dummy-content-generator/vendor/psr/container" />
+      <excludeFolder url="file://$MODULE_DIR$/../wp-dummy-content-generator/vendor/symfony/deprecation-contracts" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>

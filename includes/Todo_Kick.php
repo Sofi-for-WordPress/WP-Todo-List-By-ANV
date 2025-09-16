@@ -13,6 +13,35 @@
  * @subpackage Todo_Kick/includes
  */
 
+namespace Todo_Kick;
+
+/**
+ * The class responsible for orchestrating the actions and filters of the
+ * core plugin.
+ */
+
+use Todo_Kick\Todo_Kick_Loader;
+
+/**
+ * The class responsible for defining internationalization functionality
+ * of the plugin.
+ */
+
+use Todo_Kick\Todo_Kick_i18n;
+
+/**
+ * The class responsible for defining all actions that occur in the admin area.
+ */
+
+use Todo_Kick\Admin\Todo_Kick_Admin;
+
+/**
+ * The class responsible for defining all actions that occur in the public-facing
+ * side of the site.
+ */
+
+use Todo_Kick\Public\Todo_Kick_Public;
+
 /**
  * The core plugin class.
  *
@@ -30,32 +59,51 @@
 class Todo_Kick {
 
 	/**
+	 * Instance the core plugin class.
+	 * Used for singleton pattern implementation.
+	 *
+	 * @since 1.0.0
+	 * @access private
+	 * @var Todo_Kick | null
+	 */
+	private static ?Todo_Kick $instance = null;
+
+	/**
 	 * The loader that's responsible for maintaining and registering all hooks that power
 	 * the plugin.
 	 *
 	 * @since    1.0.0
 	 * @access   protected
-	 * @var      Todo_Kick_Loader    $loader    Maintains and registers all hooks for the plugin.
+	 * @var      Todo_Kick_Loader $loader Maintains and registers all hooks for the plugin.
 	 */
-	protected $loader;
+	protected Todo_Kick_Loader $loader;
 
 	/**
 	 * The unique identifier of this plugin.
 	 *
 	 * @since    1.0.0
 	 * @access   protected
-	 * @var      string    $plugin_name    The string used to uniquely identify this plugin.
+	 * @var      string $plugin_name The string used to uniquely identify this plugin.
 	 */
-	protected $plugin_name;
+	protected string $plugin_name;
 
 	/**
 	 * The current version of the plugin.
 	 *
 	 * @since    1.0.0
 	 * @access   protected
-	 * @var      string    $version    The current version of the plugin.
+	 * @var      string $version The current version of the plugin.
 	 */
-	protected $version;
+	protected string $version;
+
+	/**
+	 * Rest api namespace for the plugin
+	 *
+	 * @since 1.0.0;
+	 * @access protected
+	 * @var string
+	 */
+	protected static string $rest_api_namespace;
 
 	/**
 	 * Define the core functionality of the plugin.
@@ -82,6 +130,38 @@ class Todo_Kick {
 	}
 
 	/**
+	 * Get the current instance of the class
+	 *
+	 * @return Todo_Kick
+	 * @since 1.0.0
+	 * @access public
+	 */
+	public static function get_instance(): Todo_Kick {
+		if ( self::$instance == null ) {
+			self::$instance = new self();
+		}
+
+		return self::$instance;
+	}
+
+	/**
+	 * Returns the namespace for rest api
+	 *
+	 * @return string
+	 * @since 1.0.0
+	 * @access public
+	 */
+	public static function get_rest_api_namespace(): string {
+		if ( ! defined( TODO_KICK_REST_API_NAMESPACE ) ) {
+			define( 'TODO_KICK_REST_API_NAMESPACE', 'todo-kick' );
+		}
+
+		self::$rest_api_namespace = TODO_KICK_REST_API_NAMESPACE;
+
+		return self::$rest_api_namespace;
+	}
+
+	/**
 	 * Load the required dependencies for this plugin.
 	 *
 	 * Include the following files that make up the plugin:
@@ -97,33 +177,9 @@ class Todo_Kick {
 	 * @since    1.0.0
 	 * @access   private
 	 */
-	private function load_dependencies() {
-
-		/**
-		 * The class responsible for orchestrating the actions and filters of the
-		 * core plugin.
-		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-todo-kick-loader.php';
-
-		/**
-		 * The class responsible for defining internationalization functionality
-		 * of the plugin.
-		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-todo-kick-i18n.php';
-
-		/**
-		 * The class responsible for defining all actions that occur in the admin area.
-		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-todo-kick-admin.php';
-
-		/**
-		 * The class responsible for defining all actions that occur in the public-facing
-		 * side of the site.
-		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-todo-kick-public.php';
+	private function load_dependencies(): void {
 
 		$this->loader = new Todo_Kick_Loader();
-
 	}
 
 	/**
@@ -135,7 +191,7 @@ class Todo_Kick {
 	 * @since    1.0.0
 	 * @access   private
 	 */
-	private function set_locale() {
+	private function set_locale(): void {
 
 		$plugin_i18n = new Todo_Kick_i18n();
 
@@ -144,13 +200,13 @@ class Todo_Kick {
 	}
 
 	/**
-	 * Register all of the hooks related to the admin area functionality
+	 * Register all the hooks related to the admin area functionality
 	 * of the plugin.
 	 *
 	 * @since    1.0.0
 	 * @access   private
 	 */
-	private function define_admin_hooks() {
+	private function define_admin_hooks(): void {
 
 		$plugin_admin = new Todo_Kick_Admin( $this->get_plugin_name(), $this->get_version() );
 
@@ -160,13 +216,13 @@ class Todo_Kick {
 	}
 
 	/**
-	 * Register all of the hooks related to the public-facing functionality
+	 * Register all the hooks related to the public-facing functionality
 	 * of the plugin.
 	 *
 	 * @since    1.0.0
 	 * @access   private
 	 */
-	private function define_public_hooks() {
+	private function define_public_hooks(): void {
 
 		$plugin_public = new Todo_Kick_Public( $this->get_plugin_name(), $this->get_version() );
 
@@ -176,11 +232,11 @@ class Todo_Kick {
 	}
 
 	/**
-	 * Run the loader to execute all of the hooks with WordPress.
+	 * Run the loader to execute all the hooks with WordPress.
 	 *
 	 * @since    1.0.0
 	 */
-	public function run() {
+	public function run(): void {
 		$this->loader->run();
 	}
 
@@ -188,30 +244,30 @@ class Todo_Kick {
 	 * The name of the plugin used to uniquely identify it within the context of
 	 * WordPress and to define internationalization functionality.
 	 *
-	 * @since     1.0.0
 	 * @return    string    The name of the plugin.
+	 * @since     1.0.0
 	 */
-	public function get_plugin_name() {
+	public function get_plugin_name(): string {
 		return $this->plugin_name;
 	}
 
 	/**
 	 * The reference to the class that orchestrates the hooks with the plugin.
 	 *
-	 * @since     1.0.0
 	 * @return    Todo_Kick_Loader    Orchestrates the hooks of the plugin.
+	 * @since     1.0.0
 	 */
-	public function get_loader() {
+	public function get_loader(): Todo_Kick_Loader {
 		return $this->loader;
 	}
 
 	/**
 	 * Retrieve the version number of the plugin.
 	 *
-	 * @since     1.0.0
 	 * @return    string    The version number of the plugin.
+	 * @since     1.0.0
 	 */
-	public function get_version() {
+	public function get_version(): string {
 		return $this->version;
 	}
 

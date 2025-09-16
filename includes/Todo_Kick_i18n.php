@@ -13,6 +13,8 @@
  * @subpackage Todo_Kick/includes
  */
 
+namespace Todo_Kick;
+
 /**
  * Define the internationalization functionality.
  *
@@ -32,12 +34,12 @@ class Todo_Kick_i18n {
 	 *
 	 * @since    1.0.0
 	 */
-	public function load_plugin_textdomain() {
+	public function load_plugin_textdomain(): void {
 
 		load_plugin_textdomain(
 			'todo-kick',
 			false,
-			dirname( dirname( plugin_basename( __FILE__ ) ) ) . '/languages/'
+			dirname( plugin_basename( __FILE__ ), 2 ) . '/languages/'
 		);
 
 	}

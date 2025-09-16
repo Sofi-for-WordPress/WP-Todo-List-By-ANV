@@ -1,0 +1,18 @@
+{
+  "name": "junaidbinjaman/todo-kick",
+  "version": "1.0.0",
+  "autoload": {
+    "psr-4": {
+      "Todo_Kick\\": "includes/",
+      "Todo_Kick\\Admin\\": "admin/",
+      "Todo_Kick\\Public\\": "public/"
+    }
+  },
+  "authors": [
+    {
+      "name": "junaidbinjaman",
+      "email": "me@junaidbinjaman.com"
+    }
+  ],
+  "require": {}
+}

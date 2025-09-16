@@ -10,6 +10,8 @@
  * @subpackage Todo_Kick/includes
  */
 
+namespace Todo_Kick;
+
 /**
  * Fired during plugin deactivation.
  *
